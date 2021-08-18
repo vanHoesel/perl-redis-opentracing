@@ -1,4 +1,5 @@
 cpanfile
+lib/Redis/OpenTracing.pm
 lib/Redis/OpenTracing.pod
 LICENSE.md
 MANIFEST
