@@ -3,3 +3,4 @@ lib/Redis/OpenTracing.pod
 LICENSE.md
 MANIFEST
 README.md
+t/00_use_ok.t
