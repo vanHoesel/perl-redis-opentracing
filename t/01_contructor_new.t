@@ -14,7 +14,11 @@ subtest 'Create new client... with Redis' => sub {
         $redis_tracer = Redis::OpenTracing->new( redis => $redis_client )
     } "Can call 'new' with a Redis Client";
     
-    isa_ok $redis_tracer, 'Redis::OpenTracing';
+    isa_ok $redis_tracer, 'Redis::OpenTracing',
+        "... and returns a 'Redis::OpenTracing' client";
+    
+    isa_ok $redis_tracer->redis, "Test::Mock::Redis",
+        "... and the internal client is our 'Test::Mock::Redis'";
     
 };
 
