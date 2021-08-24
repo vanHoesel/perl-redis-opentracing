@@ -1,4 +1,5 @@
 requires                "Moo";
+requires                "Redis";
 requires                "Types::Standard";
 
 on 'develop' => sub {
