@@ -32,6 +32,35 @@ subroutine name and line number for easy debugging.
 
 
 
+=head1 CLASS METHODS
+
+
+
+=head2 C<new>
+
+Creates a new C<Redis::OpenTracing> client.
+
+    my $redis = Redis::OpenTracing->new(
+        redis => Redis::Fast->new,
+    );
+
+=over
+
+=item Optional Parameter(s)
+
+=over
+
+=item C<redis>
+
+A (exisitng) Redis client. This must be something like an instance of L<Redis>,
+and implement its methods to work properly.
+
+=back
+
+=back
+
+
+
 =head1 AUTHOR
 
 Theo van Hoesel <tvanhoesel@perceptyx.com>
