@@ -10,7 +10,6 @@ package My::Awesome::Module;
 use strict;
 use warnings;
 
-use Redis;
 use Redis::OpenTracing;
 
 my $redis = Redis->new( );
@@ -23,8 +22,7 @@ my $value = $redis->get 'my-key';
 ## Description
 
 The example above will use the default Redis server (from `$ENV{REDIS}`) and the Global Tracer (from `$ENV{OPENTRACING_IMPLEMENTATION}`.
-It will create span with the name `Redis::GET`,
-enriched with package/subroutine name and line number for easy debugging.
+It will create span with the name `Redis::GET`, enriched with package / subroutine name and line number for easy debugging.
 
 ## Author
 
