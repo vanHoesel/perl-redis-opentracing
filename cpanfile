@@ -1,3 +1,6 @@
+requires                "Moo";
+requires                "Types::Standard";
+
 on 'develop' => sub {
     requires    "ExtUtils::MakeMaker::CPANfile";
 };
