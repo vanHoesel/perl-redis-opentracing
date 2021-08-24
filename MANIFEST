@@ -5,3 +5,6 @@ LICENSE.md
 MANIFEST
 README.md
 t/00_use_ok.t
+t/01_constructor_new.t
+t/01_ping_pong.t
+t/lib/Test/RedisServer/Client.pm

@@ -3,5 +3,7 @@ on 'develop' => sub {
 };
 
 on 'test' => sub {
+    requires            "Redis";
     requires            "Test::Most";
+    requires            "Test::RedisServer";
 };
