@@ -61,6 +61,12 @@ sub mock_new {
     
     $mock->set_isa('Redis::NoOp');
     
+    $mock->mock(
+        connect     => sub { "OK" },
+        ping        => sub { "PONG" },
+        set         => sub { "OK" },
+    );
+    
     return $mock
 }
 
