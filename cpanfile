@@ -8,6 +8,9 @@ on 'develop' => sub {
 
 on 'test' => sub {
     requires            "Redis";
+    requires            "Test::Builder";
+    requires            "Test::Deep";
+    requires            "Test::MockObject";
     requires            "Test::Mock::Redis";
     requires            "Test::Most";
     requires            "Test::RedisServer";

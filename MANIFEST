@@ -7,4 +7,5 @@ README.md
 t/00_use_ok.t
 t/01_constructor_new.t
 t/01_ping_pong.t
+t/lib/Test/Mock/Redis/NoOp.pm
 t/lib/Test/RedisServer/Client.pm
