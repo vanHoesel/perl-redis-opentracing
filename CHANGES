@@ -1,0 +1,10 @@
+CHANGE LOG
+==========
+ 
+ 
+2021-08-26 v0.0.1
+-----------------
+ 
+Initial first simple implementation, which does not enrich the spans with more
+useful information. It only generates a span with the name of the Redis command
+capitilized for a operation-name.

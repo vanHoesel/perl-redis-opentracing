@@ -1,5 +1,7 @@
 package Redis::OpenTracing;
 
+our $VERSION = 'v0.0.1';
+
 use Moo;
 use Types::Standard qw/Object/;
 
