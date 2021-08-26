@@ -67,6 +67,10 @@ sub mock_new {
         set         => sub { "OK" },
     );
     
+    $mock->set_list(
+        keys        => qw/foo bar baz/,
+    );
+    
     return $mock
 }
 
