@@ -1,4 +1,5 @@
 requires                "Moo";
+requires                "OpenTracing::AutoScope";
 requires                "Redis";
 requires                "Types::Standard";
 
@@ -7,9 +8,7 @@ on 'develop' => sub {
 };
 
 on 'test' => sub {
-    requires            "OpenTracing::AutoScope";
     requires            "OpenTracing::Implementation";
-    requires            "Redis";
     requires            "Test::Builder";
     requires            "Test::Deep";
     requires            "Test::MockObject";
