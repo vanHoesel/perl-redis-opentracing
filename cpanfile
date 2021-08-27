@@ -1,5 +1,6 @@
 requires                "Moo";
 requires                "OpenTracing::AutoScope";
+requires                "OpenTracing::GlobalTracer";
 requires                "Redis";
 requires                "Types::Standard";
 

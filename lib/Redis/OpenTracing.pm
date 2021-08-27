@@ -7,6 +7,7 @@ use Types::Standard qw/Object/;
 
 use Redis;
 use OpenTracing::AutoScope;
+use OpenTracing::GlobalTracer;
 
 has 'redis' => (
     is => 'lazy',
@@ -26,6 +27,17 @@ sub AUTOLOAD {
     
     do {
         OpenTracing::AutoScope->start_guarded_span( uc($method_call) );
+        
+        OpenTracing::GlobalTracer
+            ->get_global_tracer( )
+            ->get_active_span
+            ->add_tags(
+                'component'     => __PACKAGE__,
+                'db.statement'  => uc($method_call),
+                'db.type'       => 'redis',
+                'span.kind'     => 'client',
+            )
+        ;
         
         return $self->redis->$method_call(@_);
         
