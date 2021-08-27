@@ -21,6 +21,12 @@ subtest "Create some traces" => sub {
             },
             {
                 operation_name => re( qr/(.*::)?ping$/i ),
+                tags           => {
+                    'component'     => 'Redis::OpenTracing',
+                    'db.statement'  => 'PING',
+                    'db.type'       => 'redis',
+                    'span.kind'     => 'client',
+                }
             },
         ],
         "Got some expected spans"
