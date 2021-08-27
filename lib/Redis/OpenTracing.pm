@@ -8,6 +8,7 @@ use Types::Standard qw/Object/;
 use Redis;
 use OpenTracing::AutoScope;
 use OpenTracing::GlobalTracer;
+use Scalar::Util 'blessed';
 
 has 'redis' => (
     is => 'lazy',
@@ -26,7 +27,9 @@ sub AUTOLOAD {
     my $method_call = do { $_ = $AUTOLOAD; s/.*:://; $_ };
     
     do {
-        OpenTracing::AutoScope->start_guarded_span( uc($method_call) );
+        OpenTracing::AutoScope->start_guarded_span(
+            blessed( $self->redis ) . '::' . $method_call
+        );
         
         OpenTracing::GlobalTracer
             ->get_global_tracer( )

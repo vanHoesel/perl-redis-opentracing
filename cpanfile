@@ -2,6 +2,7 @@ requires                "Moo";
 requires                "OpenTracing::AutoScope";
 requires                "OpenTracing::GlobalTracer";
 requires                "Redis";
+requires                "Scalar::Util";
 requires                "Types::Standard";
 
 on 'develop' => sub {
