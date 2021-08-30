@@ -1,5 +1,8 @@
 package Redis::OpenTracing;
 
+use strict;
+use warnings;
+
 our $VERSION = 'v0.0.1';
 
 use Moo;
