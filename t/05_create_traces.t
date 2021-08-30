@@ -29,6 +29,7 @@ subtest "Create some traces" => sub {
                     'component'     => 'Redis::OpenTracing',
                     'db.statement'  => 'PING',
                     'db.type'       => 'redis',
+                    'peer.address'  => 'http://redis.example.com:8080',
                     'span.kind'     => 'client',
                 }
             },
