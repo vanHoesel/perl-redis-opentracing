@@ -25,8 +25,8 @@ has 'redis' => (
 # _build_redis()
 #
 # returns a (auto-connected) Redis instance. We may opt for Redis::Fast instead,
-# but will leave that for a later itteration. It is always possible to
-# instantiate any client and inject it inti the constructor.
+# but will leave that for a later iteration. It is always possible to
+# instantiate any client and inject it into the constructor.
 #
 sub _build_redis {
     Redis->new
@@ -63,7 +63,7 @@ sub _build__peer_address {
     
     return "@{[ $self->redis->{ server } ]}"
         if exists $self->redis->{ server };
-    # currentl, we're fine with any stringification of a blessed hashref too
+    # currently, we're fine with any stringification of a blessed hashref too
     # but for Redis, Redis::Fast, Test::Mock::Redis, this is just a string
     
     return
