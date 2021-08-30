@@ -3,7 +3,7 @@ package Redis::OpenTracing;
 our $VERSION = 'v0.0.1';
 
 use Moo;
-use Types::Standard qw/Object/;
+use Types::Standard qw/Object Str/;
 
 use Redis;
 use OpenTracing::AutoScope;
@@ -19,6 +19,21 @@ sub _build_redis {
     Redis->new
 }
 
+has '_redis_client_class_name' => (
+    is => 'lazy',
+    isa => Str,
+);
+
+sub _build__redis_client_class_name {
+    blessed( shift->redis )
+};
+
+sub _operation_name {
+    my ( $self, $method_name ) = @_;
+    
+    return $self->_redis_client_class_name . '::' . $method_name;
+}
+
 our $AUTOLOAD; # keep 'use strict' happy
 
 sub AUTOLOAD {
@@ -28,7 +43,7 @@ sub AUTOLOAD {
     
     do {
         OpenTracing::AutoScope->start_guarded_span(
-            blessed( $self->redis ) . '::' . $method_call
+            $self->_operation_name( $method_call )
         );
         
         OpenTracing::GlobalTracer
