@@ -10,6 +10,8 @@ use OpenTracing::AutoScope;
 use OpenTracing::GlobalTracer;
 use Scalar::Util 'blessed';
 
+
+
 has 'redis' => (
     is => 'lazy',
     isa => Object, # beyond current scope to detect if it is a Redis like client
@@ -18,6 +20,8 @@ has 'redis' => (
 sub _build_redis {
     Redis->new
 }
+
+
 
 has '_redis_client_class_name' => (
     is => 'lazy',
@@ -28,11 +32,15 @@ sub _build__redis_client_class_name {
     blessed( shift->redis )
 };
 
+
+
 sub _operation_name {
     my ( $self, $method_name ) = @_;
     
     return $self->_redis_client_class_name . '::' . $method_name;
 }
+
+
 
 our $AUTOLOAD; # keep 'use strict' happy
 
@@ -66,6 +74,9 @@ sub AUTOLOAD {
 }
 
 
+
 sub DESTROY { } # we don't want this to be dispatched
+
+
 
 1;
