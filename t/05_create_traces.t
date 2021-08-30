@@ -20,7 +20,18 @@ subtest "Create some traces" => sub {
                 operation_name => 'MyTestApp::get_some_keys',
             },
             {
-                operation_name => re( qr/(.*::)?ping$/i ),
+#               operation_name => re( qr/Test::Mock::Redis::NoOp::ping$/ ),
+#               
+#               It is not that object, it IS a Test::MockObject instead
+#               
+                operation_name => re( qr/Test::MockObject::ping$/ ),
+                tags           => {
+                    'component'     => 'Redis::OpenTracing',
+                    'db.statement'  => 'PING',
+                    'db.type'       => 'redis',
+                    'peer.address'  => 'http://redis.example.com:8080',
+                    'span.kind'     => 'client',
+                }
             },
         ],
         "Got some expected spans"

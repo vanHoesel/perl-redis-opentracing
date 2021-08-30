@@ -71,6 +71,8 @@ sub mock_new {
         keys        => qw/foo bar baz/,
     );
     
+    $mock->{ 'server' } = 'http://redis.example.com:8080';
+    
     return $mock
 }
 
