@@ -78,28 +78,20 @@ sub AUTOLOAD {
     
     my $method_call = do { $_ = $AUTOLOAD; s/.*:://; $_ };
     
-    do {
-        OpenTracing::AutoScope->start_guarded_span(
-            $self->_operation_name( $method_call )
-        );
-        
-        OpenTracing::GlobalTracer
-            ->get_global_tracer( )
-            ->get_active_span
-            ->add_tags(
-                'component'     => __PACKAGE__,
-                'db.statement'  => uc($method_call),
-                'db.type'       => 'redis',
-                maybe
-                'peer.address'  => $self->_peer_address( ),
-                'span.kind'     => 'client',
-            )
-        ;
-        
-        return $self->redis->$method_call(@_);
-        
-    }
-    #
+    OpenTracing::AutoScope->start_guarded_span(
+        $self->_operation_name( $method_call ),
+        tags => {
+            'component'     => __PACKAGE__,
+            'db.statement'  => uc($method_call),
+            'db.type'       => 'redis',
+            maybe
+            'peer.address'  => $self->_peer_address( ),
+            'span.kind'     => 'client',
+        },
+    );
+    
+    return $self->redis->$method_call(@_);
+    
     # this is a laymans way of doing it, there are no tags set, nor any other
     # useful information passed on... patches welcome!
 }
