@@ -3,6 +3,7 @@ cpanfile
 lib/Redis/OpenTracing.pm
 lib/Redis/OpenTracing.pod
 LICENSE.md
+Makefile.PL
 MANIFEST
 README.md
 t/00_use_ok.t
