@@ -3,10 +3,12 @@ package Redis::OpenTracing;
 use strict;
 use warnings;
 
+use syntax 'maybe';
+
 our $VERSION = 'v0.0.1';
 
 use Moo;
-use Types::Standard qw/Object Str/;
+use Types::Standard qw/Maybe Object Str is_Str/;
 
 use Redis;
 use OpenTracing::AutoScope;
@@ -51,6 +53,24 @@ sub _operation_name {
 
 
 
+has '_peer_address' => (
+    is => 'lazy',
+    isa => Maybe[ Str ],
+);
+
+sub _build__peer_address {
+    my ( $self ) = @_;
+    
+    return "@{[ $self->redis->{ server } ]}"
+        if exists $self->redis->{ server };
+    # currentl, we're fine with any stringification of a blessed hashref too
+    # but for Redis, Redis::Fast, Test::Mock::Redis, this is just a string
+    
+    return
+}
+
+
+
 our $AUTOLOAD; # keep 'use strict' happy
 
 sub AUTOLOAD {
@@ -70,6 +90,8 @@ sub AUTOLOAD {
                 'component'     => __PACKAGE__,
                 'db.statement'  => uc($method_call),
                 'db.type'       => 'redis',
+                maybe
+                'peer.address'  => $self->_peer_address( ),
                 'span.kind'     => 'client',
             )
         ;
