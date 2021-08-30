@@ -17,6 +17,12 @@ has 'redis' => (
     isa => Object, # beyond current scope to detect if it is a Redis like client
 );
 
+# _build_redis()
+#
+# returns a (auto-connected) Redis instance. We may opt for Redis::Fast instead,
+# but will leave that for a later itteration. It is always possible to
+# instantiate any client and inject it inti the constructor.
+#
 sub _build_redis {
     Redis->new
 }
