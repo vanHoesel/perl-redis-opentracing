@@ -12,7 +12,6 @@ use Types::Standard qw/Maybe Object Str is_Str/;
 
 use Redis;
 use OpenTracing::AutoScope;
-use OpenTracing::GlobalTracer;
 use Scalar::Util 'blessed';
 
 
@@ -25,8 +24,8 @@ has 'redis' => (
 # _build_redis()
 #
 # returns a (auto-connected) Redis instance. We may opt for Redis::Fast instead,
-# but will leave that for a later itteration. It is always possible to
-# instantiate any client and inject it inti the constructor.
+# but will leave that for a later iteration. It is always possible to
+# instantiate any client and inject it into the constructor.
 #
 sub _build_redis {
     Redis->new
@@ -63,7 +62,7 @@ sub _build__peer_address {
     
     return "@{[ $self->redis->{ server } ]}"
         if exists $self->redis->{ server };
-    # currentl, we're fine with any stringification of a blessed hashref too
+    # currently, we're fine with any stringification of a blessed hashref too
     # but for Redis, Redis::Fast, Test::Mock::Redis, this is just a string
     
     return
@@ -77,31 +76,26 @@ sub AUTOLOAD {
     my $self = shift;
     
     my $method_call = do { $_ = $AUTOLOAD; s/.*:://; $_ };
+    my $db_statement = uc($method_call);
+    my $peer_address = $self->_peer_address( );
     
+    # minimize scope and duration of the wrapped method
     do {
         OpenTracing::AutoScope->start_guarded_span(
-            $self->_operation_name( $method_call )
-        );
-        
-        OpenTracing::GlobalTracer
-            ->get_global_tracer( )
-            ->get_active_span
-            ->add_tags(
+            $self->_operation_name( $method_call ),
+            tags => {
                 'component'     => __PACKAGE__,
-                'db.statement'  => uc($method_call),
+                'db.statement'  => $db_statement,
                 'db.type'       => 'redis',
                 maybe
-                'peer.address'  => $self->_peer_address( ),
+                'peer.address'  => $peer_address,
                 'span.kind'     => 'client',
-            )
-        ;
+            },
+        );
         
         return $self->redis->$method_call(@_);
-        
     }
-    #
-    # this is a laymans way of doing it, there are no tags set, nor any other
-    # useful information passed on... patches welcome!
+    
 }
 
 

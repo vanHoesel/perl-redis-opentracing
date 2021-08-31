@@ -24,8 +24,9 @@ Redis::OpenTracing - Wrap Redis inside OpenTracing
 
 =head1 DESCRIPTION
 
-The example above will use the default Redis server (from C<$ENV{REDIS}>) and
-the Global Tracer (from C<$ENV{OPENTRACING_IMPLEMENTATION}>.
+The example above will use the default Redis server
+(from C<$ENV{REDIS_SERVER}>) and the Global Tracer
+(from C<$ENV{OPENTRACING_IMPLEMENTATION}>.
 
 It will create span with the name C<Redis::GET>, enriched with package /
 subroutine name and line number for easy debugging.
@@ -52,7 +53,7 @@ Creates a new C<Redis::OpenTracing> client.
 
 =item C<redis>
 
-A (exisitng) Redis client. This must be something like an instance of L<Redis>,
+A (existing) Redis client. This must be something like an instance of L<Redis>,
 and implement its methods to work properly.
 
 =back
