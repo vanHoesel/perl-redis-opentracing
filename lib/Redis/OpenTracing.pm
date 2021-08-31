@@ -75,14 +75,15 @@ our $AUTOLOAD; # keep 'use strict' happy
 sub AUTOLOAD {
     my $self = shift;
     
-    my $method_call = do { $_ = $AUTOLOAD; s/.*:://; $_ };
-    my $db_statement = uc($method_call);
-    my $peer_address = $self->_peer_address( );
+    my $method_call    = do { $_ = $AUTOLOAD; s/.*:://; $_ };
+    my $db_statement   = uc($method_call);
+    my $operation_name = $self->_operation_name( $method_call );
+    my $peer_address   = $self->_peer_address( );
     
     # minimize scope and duration of the wrapped method
     do {
         OpenTracing::AutoScope->start_guarded_span(
-            $self->_operation_name( $method_call ),
+            $operation_name,
             tags => {
                 'component'     => __PACKAGE__,
                 'db.statement'  => $db_statement,
