@@ -80,8 +80,7 @@ sub AUTOLOAD {
     my $operation_name = $self->_operation_name( $method_call );
     my $peer_address   = $self->_peer_address( );
     
-    # minimize scope and duration of the wrapped method
-    do {
+    my $method_wrap = sub {
         OpenTracing::AutoScope->start_guarded_span(
             $operation_name,
             tags => {
@@ -95,8 +94,13 @@ sub AUTOLOAD {
         );
         
         return $self->redis->$method_call(@_);
-    }
+    };
     
+    # Save this method for future calls
+    no strict 'refs';
+    *$AUTOLOAD = $method_wrap;
+    
+    goto $method_wrap;
 }
 
 
