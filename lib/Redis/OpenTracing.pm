@@ -12,7 +12,6 @@ use Types::Standard qw/Maybe Object Str is_Str/;
 
 use Redis;
 use OpenTracing::AutoScope;
-use OpenTracing::GlobalTracer;
 use Scalar::Util 'blessed';
 
 
