@@ -5,7 +5,7 @@ use warnings;
 
 use syntax 'maybe';
 
-our $VERSION = 'v0.0.3';
+our $VERSION = 'v0.0.4';
 
 use Moo;
 use Types::Standard qw/Maybe Object Str is_Str/;
