@@ -68,6 +68,15 @@ Theo van Hoesel <tvanhoesel@perceptyx.com>
 
 
 
+=head1 CONTRIBUTORS
+
+The people listed below have helped to improve the quality of the code and fixed
+issues. Your work and effort is very much appreciated.
+
+Szymon Nieznanski <s.nez@member.fsf.org>
+
+
+
 =head1 COPYRIGHT AND LICENSE
 
 C<Redis::OpenTracing> is Copyright (C) 2021, Perceptyx Inc
