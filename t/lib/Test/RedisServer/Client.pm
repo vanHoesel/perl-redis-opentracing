@@ -58,13 +58,18 @@ sub connect {
         $redis_server = Test::RedisServer->new;
     } or return;
     
+    my %connect_info = $redis_server->connect_info();
+    $ENV{ REDIS_SERVER } = $connect_info{ server } || $connect_info{ sock };
+    #
+    # Such that Redis and Redis::Fast can be instantiated witouth any params
+    
     eval {
         use Redis; 1
     } or return;
     
     my $redis_client;
     eval {
-        $redis_client = Redis->new( $redis_server->connect_info );
+        $redis_client = Redis->new( %connect_info );
     } or return;
     
     return $redis_client
