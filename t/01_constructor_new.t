@@ -2,7 +2,6 @@ use Test::Most;
 
 use lib 't/lib';
 
-use Test::RedisServer::Client;
 use Test::Mock::Redis;
 
 use Redis::OpenTracing;
@@ -28,15 +27,6 @@ subtest 'Create new client... with Redis' => sub {
 
 subtest 'Create new client... without' => sub {
     
-    
-    my $redis_client = Test::RedisServer::Client->connect
-        or plan skip_all => 'Can not run test with default Redis connection';
-    #
-    # we're not actually interested in this, just want to ensure that the
-    # constructor can create a new Redis instance which is auto-connected by
-    # defualt. Auto-connect could be disabled in the constructor for Redis, but
-    # that is not the default drop-in replacement behaviour
-
     my $redis_tracer;
     
     dies_ok {
