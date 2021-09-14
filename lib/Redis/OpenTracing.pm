@@ -10,7 +10,6 @@ our $VERSION = 'v0.0.4';
 use Moo;
 use Types::Standard qw/Maybe Object Str is_Str/;
 
-use Redis;
 use OpenTracing::AutoScope;
 use Scalar::Util 'blessed';
 
@@ -106,6 +105,29 @@ sub AUTOLOAD {
 
 
 sub DESTROY { } # we don't want this to be dispatched
+
+
+
+sub _choose_redis_module {
+    
+    # return whichever might be installed already
+    #
+    return 'Redis::Fast' if $INC{'Redis/Fast.pm'};
+    return 'Redis'       if $INC{'Redis.pm'};
+    
+    my @err;
+    
+    return 'Redis::Fast'
+        if eval { require Redis::Fast; 1; };
+    push @err, "Error loading 'Redis::Fast': $@";
+    
+    return 'Redis'
+        if eval { require Redis; 1; };
+    push @err, "Error loading 'Redis': $@";
+    
+    die join( "\n", "Could not load a Redis module:", @err );
+    
+}
 
 
 
