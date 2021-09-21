@@ -2,6 +2,11 @@ CHANGE LOG
 ==========
 
 
+2021-09-21 v0.1.1
+-----------------
+- Add MetaCPAN resources
+
+
 2021-09-14 v0.1.0
 -----------------
 - Make `redis` attribute required on instantiation.
