@@ -50,14 +50,14 @@ has '_peer_address' => (
 sub _build__peer_address {
     my ( $self ) = @_;
     
-    return "@{[ $self->redis->{ server } ]}"
-        if exists $self->redis->{ server };
-    # currently, we're fine with any stringification of a blessed hashref too
-    # but for Redis, Redis::Fast, Test::Mock::Redis, this is just a string
+    my $dispatcher = $self->_get_dispatcher__peer_address( )
+        or return;
     
-    return
+    goto $dispatcher;
 }
 
+# add subrotines below to add more dispatcher, the name should be:
+# '_build__peer_address__<redis_client_class_name>'
 
 
 our $AUTOLOAD; # keep 'use strict' happy
