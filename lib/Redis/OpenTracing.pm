@@ -64,6 +64,8 @@ sub _build__peer_address {
 sub _build__peer_address__redis_fast {
     # we don't know how to compute a peer address, Redis::Fast does not give any
     # information about the connection, private methods are setters, not getters
+    my $port = $_[0]->redis->info->{tcp_port};
+    return "<unkown_host>:$port"
 }
 
 
