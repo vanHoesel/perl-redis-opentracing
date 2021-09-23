@@ -60,6 +60,13 @@ sub _build__peer_address {
 # '_build__peer_address__<redis_client_class_name>'
 
 
+
+sub _build__peer_address__redis_fast {
+    # we don't know how to compute a peer address, Redis::Fast does not give any
+    # information about the connection, private methods are setters, not getters
+}
+
+
 our $AUTOLOAD; # keep 'use strict' happy
 
 sub AUTOLOAD {
