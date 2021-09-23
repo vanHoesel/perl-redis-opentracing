@@ -26,7 +26,7 @@ subtest "Create some traces" => sub {
 #               
                 operation_name => re( qr/Test::MockObject::ping$/ ),
                 tags           => {
-                    'component'     => 'Redis::OpenTracing',
+                    'component'     => 'Test::MockObject', # yep, Mocked again
                     'db.statement'  => 'PING',
                     'db.type'       => 'redis',
                     'peer.address'  => 'http://redis.example.com:8080',

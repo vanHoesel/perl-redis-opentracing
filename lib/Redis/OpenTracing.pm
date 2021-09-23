@@ -66,6 +66,7 @@ sub AUTOLOAD {
     my $self = shift;
     
     my $method_call    = do { $_ = $AUTOLOAD; s/.*:://; $_ };
+    my $component_name = $self->_redis_client_class_name( );
     my $db_statement   = uc($method_call);
     my $operation_name = $self->_operation_name( $method_call );
     my $peer_address   = $self->_peer_address( );
@@ -74,7 +75,7 @@ sub AUTOLOAD {
         OpenTracing::AutoScope->start_guarded_span(
             $operation_name,
             tags => {
-                'component'     => __PACKAGE__,
+                'component'     => $component_name,
                 'db.statement'  => $db_statement,
                 'db.type'       => 'redis',
                 maybe
