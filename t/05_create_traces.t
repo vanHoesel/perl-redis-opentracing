@@ -29,7 +29,7 @@ subtest "Create some traces" => sub {
                     'component'     => 'Test::MockObject', # yep, Mocked again
                     'db.statement'  => 'PING',
                     'db.type'       => 'redis',
-                    'peer.address'  => 'http://redis.example.com:8080',
+                    'peer.address'  => 'mocked',
                     'span.kind'     => 'client',
                 }
             },
@@ -65,6 +65,14 @@ sub get_some_keys{
     
 }
 
+# there should not be a __test_mockobject dispatcher inside Redis::OpenTracing
+# that is why we add it here for the sake of the tests
 
+BEGIN {
+    no strict 'refs';
+    *{ "Redis::OpenTracing::_build__peer_address__test_mockobject" } = sub {
+        'mocked'
+    }
+}
 
 1;
