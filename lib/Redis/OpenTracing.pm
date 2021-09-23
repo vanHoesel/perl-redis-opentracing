@@ -68,6 +68,11 @@ sub _build__peer_address__redis_fast {
     return "<unkown_host>:$port"
 }
 
+sub _build__peer_address__redis {
+    my $server = $_[0]->redis->{ server };
+    return "$server"
+}
+
 
 our $AUTOLOAD; # keep 'use strict' happy
 
