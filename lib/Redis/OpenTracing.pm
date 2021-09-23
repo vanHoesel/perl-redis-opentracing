@@ -95,6 +95,24 @@ sub AUTOLOAD {
 }
 
 
+# _get_dispatcher__peer_address
+#
+# returns the coderef of a defined subroutine for a Redis client class name
+#
+sub _get_dispatcher__peer_address {
+    my $self = shift;
+    my $class_name = $self->_redis_client_class_name( );
+    my $dispatcher = do {
+        $_ = $self->_redis_client_class_name( );
+        s/::/_/;
+        $_ = lc($_);
+        '_build__peer_address__' . $_
+    };
+    
+    return __PACKAGE__->can($dispatcher);
+}
+
+
 
 sub DESTROY { } # we don't want this to be dispatched
 
