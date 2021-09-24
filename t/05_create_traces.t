@@ -29,7 +29,7 @@ subtest "Create some traces" => sub {
                     'component'     => 'Test::MockObject', # yep, Mocked again
                     'db.statement'  => 'PING',
                     'db.type'       => 'redis',
-                    'peer.address'  => 'http://redis.example.com:8080',
+                    'peer.address'  => 'test:/redis_peer_address',
                     'span.kind'     => 'client',
                 }
             },
@@ -60,6 +60,7 @@ sub get_some_keys{
     
     my $redis_test = Redis::OpenTracing->new(
         redis => Test::Mock::Redis::NoOp->mock_new( ),
+        peer_address => 'test:/redis_peer_address',
     );
     $redis_test->ping;
     
