@@ -24,10 +24,10 @@ subtest "Create some traces" => sub {
 #               
 #               It is not that object, it IS a Test::MockObject instead
 #               
-                operation_name => re( qr/Test::MockObject::ping$/ ),
+                operation_name => re( qr/Test::MockObject::keys$/ ),
                 tags           => {
                     'component'     => 'Test::MockObject', # yep, Mocked again
-                    'db.statement'  => 'PING',
+                    'db.statement'  => 'KEYS',
                     'db.type'       => 'redis',
                     'peer.address'  => 'http://redis.example.com:8080',
                     'span.kind'     => 'client',
@@ -64,7 +64,8 @@ sub get_some_keys{
         redis => Test::Mock::Redis::NoOp->mock_new( ),
         tags => { foo => 1, bar => 2 }
     );
-    $redis_test->ping;
+    
+    return $redis_test->keys( );
     
 }
 
