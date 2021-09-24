@@ -8,7 +8,7 @@ use syntax 'maybe';
 our $VERSION = 'v0.1.1';
 
 use Moo;
-use Types::Standard qw/Maybe Object Str is_Str/;
+use Types::Standard qw/HashRef Maybe Object Str Value is_Str/;
 
 use OpenTracing::AutoScope;
 use Scalar::Util 'blessed';
@@ -39,6 +39,14 @@ sub _operation_name {
     
     return $self->_redis_client_class_name . '::' . $method_name;
 }
+
+
+
+has 'tags' => (
+    is => 'ro',
+    isa => HashRef[Value],
+    default => sub { {} }, # an empty HashRef
+);
 
 
 
@@ -76,11 +84,16 @@ sub AUTOLOAD {
             $operation_name,
             tags => {
                 'component'     => $component_name,
-                'db.statement'  => $db_statement,
-                'db.type'       => 'redis',
+                
                 maybe
                 'peer.address'  => $peer_address,
+                
+                %{ $self->tags( ) },
+                
+                'db.statement'  => $db_statement,
+                'db.type'       => 'redis',
                 'span.kind'     => 'client',
+                
             },
         );
         
