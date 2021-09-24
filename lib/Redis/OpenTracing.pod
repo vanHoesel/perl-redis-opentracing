@@ -61,8 +61,16 @@ and implement its methods to work properly.
 
 =back
 
+=item Optional Parameter(s)
+
+=over C<peer_address> (C<Str>)
+
+An address of the (remote) Redis server or a unix socket that has been used, or
+anything else that would make sense ....
+
 =back
 
+=back
 
 
 =head1 AUTHOR
