@@ -53,7 +53,7 @@ has 'tags' => (
 our $AUTOLOAD; # keep 'use strict' happy
 
 sub AUTOLOAD {
-    my $self = shift;
+    my ($self) = @_;
     
     my $method_call    = do { $_ = $AUTOLOAD; s/.*:://; $_ };
     my $component_name = $self->_redis_client_class_name( );
@@ -61,6 +61,7 @@ sub AUTOLOAD {
     my $operation_name = $self->_operation_name( $method_call );
     
     my $method_wrap = sub {
+        my $self = shift;
         OpenTracing::AutoScope->start_guarded_span(
             $operation_name,
             tags => {
