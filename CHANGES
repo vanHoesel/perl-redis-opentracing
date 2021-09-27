@@ -2,6 +2,12 @@ CHANGE LOG
 ==========
 
 
+2021-09-27 v0.2.0
+-----------------
+- Add `tags` attribute to be able to set `peer.address` and `component`
+- Set `component` tag to injected `redis` client
+
+
 2021-09-21 v0.1.1
 -----------------
 - Add MetaCPAN resources
