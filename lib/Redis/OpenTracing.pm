@@ -76,9 +76,19 @@ sub AUTOLOAD {
             },
         );
         
+        my $result;
+        my $wantarray = wantarray();
+        eval {
+            if ($wantarray) {
+                $result = [ $self->redis->$method_call(@_) ];
+            } else {
+                $result = $self->redis->$method_call(@_);
+            };
+        };
+        
         $scope->close();
         
-        return $self->redis->$method_call(@_);
+        return $wantarray ? @$result : $result;
     };
     
     # Save this method for future calls
