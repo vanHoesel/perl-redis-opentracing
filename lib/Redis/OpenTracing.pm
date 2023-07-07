@@ -10,7 +10,7 @@ our $VERSION = 'v0.2.3';
 use Moo;
 use Types::Standard qw/HashRef Maybe Object Str Value is_Str/;
 
-use OpenTracing::AutoScope;
+use OpenTracing::GlobalTracer;
 use Scalar::Util 'blessed';
 
 
@@ -62,7 +62,7 @@ sub AUTOLOAD {
     
     my $method_wrap = sub {
         my $self = shift;
-        OpenTracing::AutoScope->start_guarded_span(
+        my $scope = _global_tracer_start_active_span(
             $operation_name,
             tags => {
                 'component'     => $component_name,
@@ -76,6 +76,8 @@ sub AUTOLOAD {
             },
         );
         
+        $scope->close();
+        
         return $self->redis->$method_call(@_);
     };
     
@@ -84,6 +86,18 @@ sub AUTOLOAD {
     *$AUTOLOAD = $method_wrap;
     
     goto $method_wrap;
+}
+
+
+
+sub _global_tracer_start_active_span {
+    my $operation_name = shift;
+    my @args = @_;
+    
+    return OpenTracing::GlobalTracer->get_global_tracer()->start_active_span(
+        $operation_name,
+        @args,
+    );
 }
 
 

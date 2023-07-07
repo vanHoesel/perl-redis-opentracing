@@ -1,5 +1,5 @@
 requires                "Moo";
-requires                "OpenTracing::AutoScope",               '>= v0.107.3';
+requires                "OpenTracing::GlobalTracer";
 suggests                "Redis::Fast";
 requires                "Scalar::Util";
 requires                "Syntax::Feature::Maybe";
@@ -11,7 +11,7 @@ on 'develop' => sub {
 };
 
 on 'test' => sub {
-requires                "OpenTracing::AutoScope",               '>= v0.107.3';
+    requires            "OpenTracing::AutoScope",               '>= v0.107.3';
     requires            "OpenTracing::Implementation",          '>= v0.31.0';
     requires            "OpenTracing::Implementation::Test";
     requires            "Test::Builder";
