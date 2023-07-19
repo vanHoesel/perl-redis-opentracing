@@ -2,6 +2,12 @@ CHANGE LOG
 ==========
 
 
+2021-09-27 v0.2.1
+-----------------
+- Add GitHub workflows
+- Fix `cpanfile`
+
+
 2021-09-27 v0.2.0
 -----------------
 - Add `tags` attribute to be able to set `peer.address` and `component`
