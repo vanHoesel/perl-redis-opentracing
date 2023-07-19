@@ -3,6 +3,7 @@ requires                "OpenTracing::AutoScope",               '>= v0.107.3';
 suggests                "Redis::Fast";
 requires                "Scalar::Util";
 requires                "Syntax::Feature::Maybe";
+requires                "syntax";
 requires                "Types::Standard";
 
 on 'develop' => sub {
@@ -11,6 +12,7 @@ on 'develop' => sub {
 
 on 'test' => sub {
     requires            "OpenTracing::Implementation",          '>= v0.31.0';
+    requires            "OpenTracing::Implementation::Test";
     requires            "Test::Builder";
     requires            "Test::Deep";
     requires            "Test::MockObject";
