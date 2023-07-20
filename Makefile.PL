@@ -7,7 +7,7 @@ WriteMakefile(
     'ABSTRACT_FROM' => 'lib/Redis/OpenTracing.pod',
     'LICENSE'       => 'perl',
     test            => {
-        TESTS       => 't/Redis/OpenTracing/*.t',
+        TESTS       => 't/Redis/OpenTracing.t t/Redis/OpenTracing/*.t',
     },
     'META_MERGE'	=> {
         "meta-spec" => { version => 2 },
