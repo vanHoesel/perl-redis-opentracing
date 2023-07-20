@@ -2,7 +2,13 @@ CHANGE LOG
 ==========
 
 
-2021-09-27 v0.2.1
+2023-07-20 v0.2.2
+-----------------
+- Add and change testing
+- Fix `cpanfile`
+
+
+2023-07-19 v0.2.1
 -----------------
 - Add GitHub workflows
 - Fix `cpanfile`
