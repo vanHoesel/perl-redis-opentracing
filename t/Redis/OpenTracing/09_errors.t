@@ -29,18 +29,18 @@ throws_ok {
 global_tracer_cmp_easy(
     [
         {
-            operation_name  => "Test::MockObject::ping",
+            operation_name  => "Test::Mock::Redis::NoOp::ping",
             tags            => {
-                'component'     => "Test::MockObject",
+                'component'     => "Test::Mock::Redis::NoOp",
                 'db.statement'  => "PING",
                 'db.type'       => "redis",
                 'span.kind'     => "client",
             },
         },
         {
-            operation_name  => "Test::MockObject::die",
+            operation_name  => "Test::Mock::Redis::NoOp::die",
             tags            => {
-                'component'     => "Test::MockObject",
+                'component'     => "Test::Mock::Redis::NoOp",
                 'db.statement'  => "DIE",
                 'db.type'       => "redis",
                 'span.kind'     => "client",
