@@ -16,7 +16,6 @@ requires                "OpenTracing::AutoScope",               '>= v0.107.3';
     requires            "OpenTracing::Implementation::Test";
     requires            "Test::Builder";
     requires            "Test::Deep";
-    requires            "Test::MockObject";
     requires            "Test::Mock::Redis";
     requires            "Test::Most";
     requires            "Test::OpenTracing::Integration",       '>= v0.102.1';

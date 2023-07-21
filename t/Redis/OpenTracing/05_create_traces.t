@@ -20,13 +20,9 @@ subtest "Create some traces" => sub {
                 operation_name => 'MyTestApp::get_some_keys',
             },
             {
-#               operation_name => re( qr/Test::Mock::Redis::NoOp::ping$/ ),
-#               
-#               It is not that object, it IS a Test::MockObject instead
-#               
-                operation_name => re( qr/Test::MockObject::keys$/ ),
+                operation_name => re( qr/Test::Mock::Redis::NoOp::keys$/ ),
                 tags           => {
-                    'component'     => 'Test::MockObject', # yep, Mocked again
+                    'component'     => 'Test::Mock::Redis::NoOp',
                     'db.statement'  => 'KEYS',
                     'db.type'       => 'redis',
 #                   'peer.address'  => undef, # but will not be present at all
