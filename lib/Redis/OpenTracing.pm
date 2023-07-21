@@ -129,6 +129,7 @@ sub generate_error_tags {
     my ( $db_statement, $error ) = @_;
     
     my $error_message = $error;
+    chomp $error_message;
     
     my $error_kind = sprintf("REDIS_%s_EXCEPTION",
         $db_statement,
