@@ -1,5 +1,6 @@
 use Test::More;
 use Test::Exception;
+use Test::Deep qw/superhashof/;
 
 use lib 't/lib';
 
@@ -20,7 +21,10 @@ lives_ok {
 is $redis->ping, "PONG",
     "... and seems to be okay";
 
-note "so far, so good!";
+throws_ok {
+    $redis->die("Nope, not doing this");
+} qr/Nope, not doing this/,
+    "... and dies with the appropriate message";
 
 global_tracer_cmp_easy(
     [
@@ -33,6 +37,19 @@ global_tracer_cmp_easy(
                 'span.kind'     => "client",
             },
         },
+        {
+            operation_name  => "Test::MockObject::die",
+            tags            => {
+                'component'     => "Test::MockObject",
+                'db.statement'  => "DIE",
+                'db.type'       => "redis",
+                'span.kind'     => "client",
+                
+                'error'         => 1,
+                'message'       => "Nope, not doing this",
+                'error.kind'    => "REDIS_DIE_EXCEPTION"
+            },
+        }
     ],
    "... and we do have the expected spans" 
 );
