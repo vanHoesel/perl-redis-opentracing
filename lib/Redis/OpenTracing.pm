@@ -89,6 +89,14 @@ sub AUTOLOAD {
         };
         my $error = $@;
         
+        my $span = $scope->get_span();
+        
+        unless ($ok ) {
+            $span->add_tags(
+                generate_error_tags( $db_statement, $error )
+            );
+        }
+        
         $scope->close();
         
         die $error unless $ok;
@@ -112,6 +120,24 @@ sub _global_tracer_start_active_span {
     return OpenTracing::GlobalTracer->get_global_tracer()->start_active_span(
         $operation_name,
         @args,
+    );
+}
+
+
+
+sub generate_error_tags {
+    my ( $db_statement, $error ) = @_;
+    
+    my $error_message = $error;
+    
+    my $error_kind = sprintf("REDIS_%s_EXCEPTION",
+        $db_statement,
+    );
+    
+    return (
+        'error'      => 1,
+        'message'    => $error_message,
+        'error.kind' => $error_kind,
     );
 }
 
