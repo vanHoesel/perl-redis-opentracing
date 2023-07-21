@@ -20,9 +20,9 @@ subtest "Tags with default values" => sub {
                 operation_name => 'MyTestApp::Default::get_some_keys',
             },
             {
-                operation_name => re( qr/Test::MockObject::keys$/ ),
+                operation_name => re( qr/Test::Mock::Redis::NoOp::keys$/ ),
                 tags           => {
-                    'component'     => 'Test::MockObject', # yep, Mocked again
+                    'component'     => 'Test::Mock::Redis::NoOp',
                     'db.statement'  => 'KEYS',
                     'db.type'       => 'redis',
                     'span.kind'     => 'client',
@@ -49,7 +49,7 @@ subtest "Tags with provided values" => sub {
                 operation_name => 'MyTestApp::TagValues::get_some_keys',
             },
             {
-                operation_name => re( qr/Test::MockObject::keys$/ ),
+                operation_name => re( qr/Test::Mock::Redis::NoOp::keys$/ ),
                 tags           => {
                     'component'     => 'Redis::TagValues',    # provided
                     'db.statement'  => 'KEYS',                # redis-command
