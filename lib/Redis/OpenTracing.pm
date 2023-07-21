@@ -78,15 +78,20 @@ sub AUTOLOAD {
         
         my $result;
         my $wantarray = wantarray();
-        eval {
+        
+        my $ok = eval {
             if ($wantarray) {
                 $result = [ $self->redis->$method_call(@_) ];
             } else {
                 $result = $self->redis->$method_call(@_);
             };
+            1;
         };
+        my $error = $@;
         
         $scope->close();
+        
+        die $error unless $ok;
         
         return $wantarray ? @$result : $result;
     };
