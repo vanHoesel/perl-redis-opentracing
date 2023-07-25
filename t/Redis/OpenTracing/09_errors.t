@@ -1,6 +1,6 @@
 use Test::More;
 use Test::Exception;
-use Test::Deep qw/superhashof/;
+use Test::Deep qw/superhashof re/;
 
 use lib 't/lib';
 
@@ -23,8 +23,8 @@ is $redis->ping, "PONG",
 
 throws_ok {
     $redis->die("Nope, not doing this");
-} qr/Nope, not doing this/,
-    "... and dies with the appropriate message";
+} qr/^Nope, not doing this.*09_errors\.t line \d+\.$/s,
+    "... and dies with the appropriate message reporting the caller";
 
 global_tracer_cmp_easy(
     [
@@ -46,8 +46,8 @@ global_tracer_cmp_easy(
                 'span.kind'     => "client",
                 
                 'error'         => 1,
-                'message'       => "Nope, not doing this",
-                'error.kind'    => "REDIS_DIE_EXCEPTION"
+                'message'       => re(qr/^Nope, not doing this.*/),
+                'error.kind'    => "REDIS_DIE_EXCEPTION",
             },
         }
     ],
