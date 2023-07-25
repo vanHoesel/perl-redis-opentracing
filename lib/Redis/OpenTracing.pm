@@ -12,8 +12,7 @@ use Types::Standard qw/HashRef Maybe Object Str Value is_Str/;
 
 use OpenTracing::GlobalTracer;
 use Scalar::Util 'blessed';
-
-
+use Carp qw/croak/ ;
 
 has 'redis' => (
     is => 'ro',
@@ -89,17 +88,15 @@ sub AUTOLOAD {
         };
         my $error = $@;
         
-        my $span = $scope->get_span();
-        
-        unless ($ok ) {
-            $span->add_tags(
+        if ( $ok ) {
+            $scope->close()
+        } else {
+            $scope->get_span()->add_tags(
                 generate_error_tags( $db_statement, $error )
             );
+            $scope->close();
+            croak $error;
         }
-        
-        $scope->close();
-        
-        die $error unless $ok;
         
         return $wantarray ? @$result : $result;
     };
