@@ -51,9 +51,6 @@ use warnings;
 use Test::Builder;
 use Test::Deep qw/cmp_details deep_diag/;
 
-
-use Carp qw/croak/;
-
 sub mock_new {
     my $class = shift;
     
@@ -64,7 +61,7 @@ sub connect { _push_calls(@_); "OK" }
 sub ping    { _push_calls(@_); "PONG" }
 sub set     { _push_calls(@_); "OK" }
 sub keys    { _push_calls(@_); my @keys = (qw/foo bar baz/); return @keys }
-sub die     { _push_calls(@_); croak "$_[1]" // "Exception in Redis::NoOp\n" }
+sub die     { _push_calls(@_); die "$_[1]" // "Exception in Redis::NoOp" }
 
 
 
