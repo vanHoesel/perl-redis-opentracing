@@ -22,7 +22,7 @@ is $redis->ping, "PONG",
     "... and seems to be okay";
 
 throws_ok {
-    $redis->die("Nope, not doing this");
+    $redis->dies("Nope, not doing this");
 } qr/^Nope, not doing this.*09_errors\.t line \d+\.$/s,
     "... and dies with the appropriate message reporting the caller";
 
@@ -38,16 +38,16 @@ global_tracer_cmp_easy(
             },
         },
         {
-            operation_name  => "Test::Mock::Redis::NoOp::die",
+            operation_name  => "Test::Mock::Redis::NoOp::dies",
             tags            => {
                 'component'     => "Test::Mock::Redis::NoOp",
-                'db.statement'  => "DIE",
+                'db.statement'  => "DIES",
                 'db.type'       => "redis",
                 'span.kind'     => "client",
                 
                 'error'         => 1,
                 'message'       => re(qr/^Nope, not doing this.*/),
-                'error.kind'    => "REDIS_DIE_EXCEPTION",
+                'error.kind'    => "REDIS_DIES_EXCEPTION",
             },
         }
     ],

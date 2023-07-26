@@ -61,7 +61,7 @@ sub connect { _push_calls(@_); "OK" }
 sub ping    { _push_calls(@_); "PONG" }
 sub set     { _push_calls(@_); "OK" }
 sub keys    { _push_calls(@_); my @keys = (qw/foo bar baz/); return @keys }
-sub die     { _push_calls(@_); die "$_[1]" // "Exception in Redis::NoOp" }
+sub dies    { _push_calls(@_); die "$_[1]" // "Exception in Redis::NoOp" }
 
 
 
