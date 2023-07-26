@@ -2,6 +2,12 @@ CHANGE LOG
 ==========
 
 
+2023-07-26 v0.3.0
+-----------------
+- add `error`, `error.kind`, and `message` to spans in case of an exception.
+- improve testing
+
+
 2023-07-21 v0.2.3
 -----------------
 - improve testing
