@@ -47,7 +47,7 @@ global_tracer_cmp_easy(
                 
                 'error'         => 1,
                 'message'       => re(qr/^Nope, not doing this.*/),
-                'error.kind'    => "REDIS_DIES_EXCEPTION",
+                'error.kind'    => "REDIS_EXCEPTION_DIES",
             },
         }
     ],
