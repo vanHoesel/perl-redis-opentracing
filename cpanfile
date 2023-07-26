@@ -22,5 +22,5 @@ on 'test' => sub {
     requires            "Test::Mock::Redis";
     requires            "Test::More";
     requires            "Test::Most";
-    requires            "Test::OpenTracing::Integration",       '>= v0.103.1';
+    requires            "Test::OpenTracing::Integration",       '>= v0.104.1';
 };
