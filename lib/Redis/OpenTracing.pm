@@ -128,10 +128,11 @@ sub generate_error_tags {
     my $error_message = $error;
     chomp $error_message;
     
-    my $error_kind = sprintf("REDIS_EXCEPTION_%s",
-        $db_statement,
-    );
-    
+    my $error_kind = "REDIS_EXCEPTION";
+#   my $error_kind = sprintf("REDIS_EXCEPTION_%s",
+#       $db_statement,
+#   );
+#   
     return (
         'error'      => 1,
         'message'    => $error_message,

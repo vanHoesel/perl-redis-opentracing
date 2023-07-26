@@ -94,7 +94,7 @@ global_tracer_cmp_spans(
                 'tag_2'         => "2",
 
                 'error'         => 1,
-                'error.kind'    => "REDIS_EXCEPTION_DIES",
+                'error.kind'    => "REDIS_EXCEPTION",
                 'message'       => re(qr/Can't locate object method "dies".../)
             } ),
         },
