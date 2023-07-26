@@ -4,6 +4,7 @@ use OpenTracing::Implementation qw/Test/;
 
 use Test::OpenTracing::Integration;
 use Test::Mock::Redis;
+use Test::Deep qw/re superhashof/;;
 
 use Redis::OpenTracing;
 
@@ -26,14 +27,14 @@ $redis->multi;
 $redis->rpush( key_2 => 1 .. 5 );
 $redis->hset( key_3 => foo => 7, bar => 8);
 my @resp = $redis->exec;
-my @keys = $redis->keys('');
-
+my @keys = $redis->keys('*');
+eval { $redis->dies; };
 
 pass "so far, so good!";
 
 # and now see that we have spans
 #
-global_tracer_cmp_easy(
+global_tracer_cmp_spans(
     [
         {
             operation_name  => "Test::Mock::Redis::ping",
@@ -48,69 +49,54 @@ global_tracer_cmp_easy(
         },
         {
             operation_name  => "Test::Mock::Redis::set",
-            tags            => {
-                'component'     => "Test::Mock::Redis",
+            tags            => superhashof( {
                 'db.statement'  => "SET",
-                'db.type'       => "redis",
-                'span.kind'     => "client",
-                'tag_1'         => "1",
-                'tag_2'         => "2",
-            },
+            } ),
         },
         {
             operation_name  => "Test::Mock::Redis::multi",
-            tags            => {
-                'component'     => "Test::Mock::Redis",
+            tags            => superhashof( {
                 'db.statement'  => "MULTI",
-                'db.type'       => "redis",
-                'span.kind'     => "client",
-                'tag_1'         => "1",
-                'tag_2'         => "2",
-            },
+            } ),
         },
         {
             operation_name  => "Test::Mock::Redis::rpush",
-            tags            => {
-                'component'     => "Test::Mock::Redis",
+            tags            => superhashof( {
                 'db.statement'  => "RPUSH",
-                'db.type'       => "redis",
-                'span.kind'     => "client",
-                'tag_1'         => "1",
-                'tag_2'         => "2",
-            },
+            } ),
         },
         {
             operation_name  => "Test::Mock::Redis::hset",
-            tags            => {
-                'component'     => "Test::Mock::Redis",
+            tags            => superhashof( {
                 'db.statement'  => "HSET",
-                'db.type'       => "redis",
-                'span.kind'     => "client",
-                'tag_1'         => "1",
-                'tag_2'         => "2",
-            },
+            } ),
         },
         {
             operation_name  => "Test::Mock::Redis::exec",
-            tags            => {
-                'component'     => "Test::Mock::Redis",
+            tags            => superhashof( {
                 'db.statement'  => "EXEC",
-                'db.type'       => "redis",
-                'span.kind'     => "client",
-                'tag_1'         => "1",
-                'tag_2'         => "2",
-            },
+            } ),
         },
         {
             operation_name  => "Test::Mock::Redis::keys",
-            tags            => {
-                'component'     => "Test::Mock::Redis",
+            tags            => superhashof( {
                 'db.statement'  => "KEYS",
+            } ),
+        },
+        {
+            operation_name  => "Test::Mock::Redis::dies",
+            tags            => superhashof( {
+                'component'     => "Test::Mock::Redis",
+                'db.statement'  => "DIES",
                 'db.type'       => "redis",
                 'span.kind'     => "client",
                 'tag_1'         => "1",
                 'tag_2'         => "2",
-            },
+
+                'error'         => 1,
+                'error.kind'    => "REDIS_EXCEPTION",
+                'message'       => re(qr/Can't locate object method "dies".../)
+            } ),
         },
     ],
    "... and we do have spans" 
